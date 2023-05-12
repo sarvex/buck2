@@ -54,7 +54,7 @@ def run_args(args):
         for line in result.stdout.split("\n"):
             pre, _, post = line.partition("=")
             if pre == "cargo:rustc-cfg":
-                file.write("--cfg={}\n".format(post))
+                file.write(f"--cfg={post}\n")
 
 def run_srcs(args):
     Path(args.output).mkdir(exist_ok=True)
@@ -68,6 +68,6 @@ def main():
     elif args.mode == "srcs":
         run_srcs(args)
     else:
-        raise RuntimeError("Unknown mode: " + repr(args.mode))
+        raise RuntimeError(f"Unknown mode: {repr(args.mode)}")
 
 main()

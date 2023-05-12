@@ -38,7 +38,7 @@ class Colors(Enum):
 
 
 def print_running(msg: str) -> None:
-    print(Colors.OKGREEN.value + "Running " + msg + Colors.ENDC.value)
+    print(f"{Colors.OKGREEN.value}Running {msg}{Colors.ENDC.value}")
 
 
 def print_error(msg: str) -> None:
@@ -73,7 +73,7 @@ def run(
     sys.stdout.flush()
     sys.stderr.flush()
     try:
-        result = subprocess.run(
+        return subprocess.run(
             tuple(args),
             # We'd like to use the capture_output argument,
             # but that isn't available in Python 3.6 which we use on Windows
@@ -83,7 +83,6 @@ def run(
             encoding="utf-8",
             env=env or os.environ.copy(),
         )
-        return result
     except subprocess.CalledProcessError as e:
         # Print the console info if we were capturing it
         if capture_output:
@@ -323,7 +322,7 @@ def starlark_linter() -> None:
                 "starlark",
                 "lint",
                 "--no-buckd",
-                "@" + fp.name,
+                f"@{fp.name}",
             ]
         )
 
@@ -453,7 +452,7 @@ def main() -> None:
         package_args.append("--workspace")
         package_args.extend([f"--exclude={p.rstrip('/')}" for p in args.exclude])
 
-    if package_args == [] and not (args.lint_rust_only or args.rustfmt_only):
+    if not package_args and not args.lint_rust_only and not args.rustfmt_only:
         with timing():
             starlark_linter()
 

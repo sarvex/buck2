@@ -50,7 +50,7 @@ def rewrite_dep_file(used_classes_paths, dst_path, jar_to_jar_dir_map_file):
     jar_to_jar_dir_map = {}
     if jar_to_jar_dir_map_file is not None:
         with open(jar_to_jar_dir_map_file, "r") as f:
-            for line in f.readlines():
+            for line in f:
                 jar, jar_dir = line.strip().split()
                 jar_to_jar_dir_map[jar] = jar_dir
 

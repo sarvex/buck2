@@ -67,7 +67,8 @@ def main() -> None:
         name = Path(x).stem
         prefix = "---\nid: " + name + "\n---\n"
         write_file(
-            "docs/developers/starlark/" + name + ".generated.md", prefix + read_file(x)
+            f"docs/developers/starlark/{name}.generated.md",
+            prefix + read_file(x),
         )
 
     with tempfile.TemporaryDirectory() as tmp:
@@ -98,10 +99,10 @@ def main() -> None:
                 # Uninteresting docs we'd rather not have generated
                 continue
             elif "/standard/" in x or "/extension/" in x or x.endswith("builtins.md"):
-                dest = "starlark/" + name
+                dest = f"starlark/{name}"
             else:
-                dest = "build/" + x[7:-3]
-            dest = "docs/api/" + dest + ".generated.md"
+                dest = f"build/{x[7:-3]}"
+            dest = f"docs/api/{dest}.generated.md"
             os.makedirs(Path(dest).parent, exist_ok=True)
             write_file(dest, prefix + src)
 
